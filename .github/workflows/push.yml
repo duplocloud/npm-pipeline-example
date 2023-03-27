@@ -1,0 +1,15 @@
+name: Example Push Flow
+run-name: Example Push Flow
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 19
+    - name: Install
+      run: npm ci
+    - name: Test
+      run: npm test

@@ -1,0 +1,8 @@
+services:
+  myapp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: myapp:$CI_TAG
+    ports:
+    - 3000:3000
