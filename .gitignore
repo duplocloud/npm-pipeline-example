@@ -1,2 +1,5 @@
 node_modules
 dist
+
+# open vpn output and tmp dir
+/.devcontainer/openvpn-tmp
