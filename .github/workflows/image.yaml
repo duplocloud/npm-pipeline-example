@@ -1,4 +1,4 @@
-name: Build and Deploy
+name: Publish Image
 on:
   # Triggers the workflow on push to matching branches
   push:
@@ -16,6 +16,8 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      AWS_DEFAULT_REGION: us-east-1
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -33,11 +35,14 @@ jobs:
       # Build and push the docker image
       - name: Docker Build and Push
         uses: docker/build-push-action@v2
+        env:
+          IMAGE: ${{ steps.login-ecr.outputs.registry }}/${{ env.SERVICE_NAME }}
         with:
           context: .
           push: true
           tags: |
-            ${{ steps.login-ecr.outputs.registry }}/${{ env.SERVICE_NAME }}:${{ github.sha }}
+            ${{ env.IMAGE }}:${{ github.sha }}
+            ${{ env.IMAGE }}:latest
             
     # This part is important - it will be used by the deploy job
     outputs:

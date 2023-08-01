@@ -1,7 +1,7 @@
 # You can use any debian based image you want
 ARG VARIANT="16-buster"
-# FROM mcr.microsoft.com/vscode/devcontainers/base:0-bullseye
-FROM mcr.microsoft.com/vscode/devcontainers/javascript-node:0-${VARIANT}
+FROM mcr.microsoft.com/vscode/devcontainers/base:0-bullseye
+# FROM mcr.microsoft.com/vscode/devcontainers/javascript-node:0-${VARIANT}
 
 ENV HECKA="foo boo"
 
