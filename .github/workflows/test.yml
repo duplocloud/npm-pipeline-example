@@ -5,6 +5,7 @@ on:
   workflow_call: {}
 jobs:
   build_test:
+    name: Code Review
     runs-on: ubuntu-latest
     steps:
 
