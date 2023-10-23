@@ -1,0 +1,13 @@
+name: Check PR
+
+on:
+  pull_request:
+    branches:
+    - main
+
+jobs:
+
+  test:
+    name: Review PR
+    uses: ./.github/workflows/test.yml
+

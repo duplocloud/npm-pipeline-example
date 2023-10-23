@@ -1,0 +1,29 @@
+name: Check Main
+
+on:
+  push:
+    branches:
+    - main
+    tags:
+    - v*
+
+jobs:
+
+  test:
+    name: Main
+    uses: ./.github/workflows/test.yml
+
+  image:
+    name: Main
+    needs: test
+    secrets: inherit
+    uses: ./.github/workflows/image.yml
+
+  deploy:
+    name: Main
+    uses: ./.github/workflows/deploy.yml
+    needs: image
+    secrets: inherit
+    with:
+      image: ${{ needs.image.outputs.image }}
+      environment: qa-aws

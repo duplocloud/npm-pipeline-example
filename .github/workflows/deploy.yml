@@ -1,0 +1,48 @@
+name: Update Service
+
+on: 
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: The environment to deploy to
+        type: environment
+        default: dev
+        required: true
+      image:
+        description: The full image
+        type: string
+        required: true
+  workflow_call:
+    inputs:
+      environment:
+        description: The environment to deploy to
+        required: true
+        type: string
+      image:
+        description: The full image
+        required: true
+        type: string
+    secrets:
+      DUPLO_TOKEN:
+        description: The Duplo API token
+        required: true
+
+jobs:
+  update_service:
+    name: Update Service
+    runs-on: ubuntu-latest
+    environment: 
+      name: ${{ inputs.environment }}
+    env:
+      DUPLO_TOKEN: ${{ secrets.DUPLO_TOKEN }}
+      DUPLO_HOST: ${{ vars.DUPLO_HOST  }}
+      DUPLO_TENANT: ${{ vars.DUPLO_TENANT }}
+    steps: 
+    - name: Duplo Setup
+      uses: duplocloud/actions/setup@main
+
+    - name: Update Service
+      uses: duplocloud/actions/update-service@main
+      with:
+        service: my-service
+        image: ${{ inputs.image }}

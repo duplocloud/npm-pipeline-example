@@ -1,17 +1,20 @@
 name: Publish Image
 on:
-  # Triggers the workflow on push to matching branches
-  push:
-    branches:
-    - main
-    tags:
-    - v*
   workflow_dispatch: {}
+  workflow_call: 
+    outputs:
+      image:
+        description: The URI of the image
+        value: ${{ jobs.build_image.outputs.image }}
+    secrets:
+      DUPLO_TOKEN:
+        description: The token to use for Duplo API calls
+        required: true
 
 env:
   DUPLO_HOST: ${{ vars.DUPLO_HOST }}
   DUPLO_TENANT: ${{ vars.DUPLO_TENANT }}
-  DUPLO_TOKEN: "${{ secrets.DUPLO_TOKEN }}"
+  DUPLO_TOKEN: ${{ secrets.DUPLO_TOKEN }}
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -20,6 +23,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       AWS_DEFAULT_REGION: us-east-1
+    outputs:
+      image: ${{ steps.build_image.outputs.uri }}
     steps:
 
     - name: Checkout code
@@ -29,6 +34,7 @@ jobs:
       uses: duplocloud/actions/setup@main
 
     - name: Build and Push Docker Image
+      id: build_image
       uses: duplocloud/actions/build-image@main
       with:
         platforms: linux/amd64,linux/arm64
