@@ -6,3 +6,5 @@ services:
     image: myapp:$CI_TAG
     ports:
     - 3000:3000
+    # entrypoint: ["/bin/sh", "-c"]
+    # command: ["tail -f /dev/null"]
