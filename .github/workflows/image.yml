@@ -39,3 +39,7 @@ jobs:
       with:
         platforms: linux/amd64 # linux/arm64 makes it take longer
         push: false
+        build-args: >
+          foo=bar
+          ice_cream=chocolate
+          name=${{ github.repository }}
