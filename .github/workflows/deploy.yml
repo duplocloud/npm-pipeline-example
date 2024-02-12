@@ -39,7 +39,7 @@ jobs:
       DUPLO_TENANT: ${{ vars.DUPLO_TENANT }}
     steps: 
     - name: Duplo Setup
-      uses: duplocloud/actions/setup@main
+      uses: duplocloud/actions/setup@azure-style
 
     - name: Update Service
       uses: duplocloud/actions/update-service@main
