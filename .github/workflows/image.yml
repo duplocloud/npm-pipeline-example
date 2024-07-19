@@ -3,7 +3,7 @@ on:
   # Triggers the workflow on push to matching branches
   push:
     branches:
-      - master
+    - main
   # (Optional) Allows users to trigger the workflow manually from the GitHub UI
   workflow_dispatch: {}
   # (Optional) Allow other workflows to use this workflow ant its outputs
@@ -34,10 +34,10 @@ jobs:
     steps:
 
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Duplo Setup
-      uses: duplocloud/actions/setup@main
+      uses: duplocloud/actions@main
 
     - name: Build and Push Docker Image
       id: build_image
