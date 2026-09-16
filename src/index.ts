@@ -6,6 +6,7 @@ const pkg = require('../package.json');
 export const app = express();
 const port = process.env.PORT || 3000;
 
+// In-memory only — resets to 0 on every process restart.
 let versionRequestCount = 0;
 
 app.get('/', (req, res) => {
@@ -14,7 +15,7 @@ app.get('/', (req, res) => {
 
 app.get('/version', (req, res) => {
   versionRequestCount += 1;
-  res.json({ name: pkg.name, version: pkg.version, requestCount: versionRequestCount });
+  res.json({ name: pkg.name, version: pkg.version, versionRequestCount });
 });
 
 export const server = app.listen(port, () => {
