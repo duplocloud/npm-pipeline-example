@@ -11,3 +11,17 @@ describe('Test the root path', () => {
     expect(response.status).toBe(200);
   });
 });
+
+describe('GET /health', () => {
+  afterEach(() => {
+    server.close();
+  });
+  test('returns 200 with JSON status, version, and uptime', async () => {
+    const response = await request(app).get('/health');
+    expect(response.status).toBe(200);
+    expect(response.headers['content-type']).toMatch(/application\/json/);
+    expect(response.body.status).toBe('ok');
+    expect(typeof response.body.version).toBe('string');
+    expect(typeof response.body.uptime).toBe('number');
+  });
+});
