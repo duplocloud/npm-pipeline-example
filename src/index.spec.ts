@@ -11,3 +11,21 @@ describe('Test the root path', () => {
     expect(response.status).toBe(200);
   });
 });
+
+describe('GET /version', () => {
+  afterEach(() => {
+    server.close();
+  });
+  test('returns 200 with name, version, and requestCount', async () => {
+    const response = await request(app).get('/version');
+    expect(response.status).toBe(200);
+    expect(response.body.name).toBe('duplo-pipeline-example');
+    expect(response.body.version).toBe('1.0.0');
+    expect(typeof response.body.requestCount).toBe('number');
+  });
+  test('requestCount increments on each call', async () => {
+    const first = await request(app).get('/version');
+    const second = await request(app).get('/version');
+    expect(second.body.requestCount).toBe(first.body.requestCount + 1);
+  });
+});

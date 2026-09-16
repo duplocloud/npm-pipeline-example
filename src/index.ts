@@ -1,10 +1,20 @@
 import * as express from 'express';
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const pkg = require('../package.json');
+
 export const app = express();
 const port = process.env.PORT || 3000;
 
+let versionRequestCount = 0;
+
 app.get('/', (req, res) => {
   res.send('Hello, world!');
+});
+
+app.get('/version', (req, res) => {
+  versionRequestCount += 1;
+  res.json({ name: pkg.name, version: pkg.version, requestCount: versionRequestCount });
 });
 
 export const server = app.listen(port, () => {
