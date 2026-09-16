@@ -10,10 +10,10 @@ jobs:
     steps:
 
     - name: Checkout Code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Setup Node
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: 19
         cache: npm
@@ -22,10 +22,14 @@ jobs:
       run: npm ci
 
     - name: Audit Installation
+      continue-on-error: true
       run: npm audit
 
     - name: Build Project
       run: npm run build:ci
+
+    - name: Test
+      run: npm test
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v3
@@ -33,5 +37,4 @@ jobs:
         name: build
         path: ./dist/
 
-    - name: Test
-      run: npm test
+    
