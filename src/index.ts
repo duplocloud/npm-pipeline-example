@@ -18,6 +18,10 @@ app.get('/version', (req, res) => {
   res.json({ name: pkg.name, version: pkg.version, versionRequestCount });
 });
 
+app.get('/health', (req, res) => {
+  res.json({ status: 'ok', uptime: process.uptime() });
+});
+
 export const server = app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
