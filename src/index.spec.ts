@@ -10,6 +10,11 @@ describe('Test the root path', () => {
     expect(response.text).toEqual('Hello, world!');
     expect(response.status).toBe(200);
   });
+  test('response includes X-Request-ID header', async () => {
+    const response = await request(app).get('/');
+    expect(response.headers['x-request-id']).toBeDefined();
+    expect(response.headers['x-request-id']).not.toBe('');
+  });
 });
 
 describe('GET /version', () => {
@@ -27,5 +32,15 @@ describe('GET /version', () => {
     const first = await request(app).get('/version');
     const second = await request(app).get('/version');
     expect(second.body.versionRequestCount).toBe(first.body.versionRequestCount + 1);
+  });
+  test('response includes X-Request-ID header', async () => {
+    const response = await request(app).get('/version');
+    expect(response.headers['x-request-id']).toBeDefined();
+    expect(response.headers['x-request-id']).not.toBe('');
+  });
+  test('each request gets a unique X-Request-ID', async () => {
+    const first = await request(app).get('/version');
+    const second = await request(app).get('/version');
+    expect(first.headers['x-request-id']).not.toBe(second.headers['x-request-id']);
   });
 });
