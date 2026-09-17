@@ -29,3 +29,16 @@ describe('GET /version', () => {
     expect(second.body.versionRequestCount).toBe(first.body.versionRequestCount + 1);
   });
 });
+
+describe('GET /health', () => {
+  afterEach(() => {
+    server.close();
+  });
+  test('returns 200 with status "ok" and numeric uptime', async () => {
+    const response = await request(app).get('/health');
+    expect(response.status).toBe(200);
+    expect(response.body.status).toBe('ok');
+    expect(typeof response.body.uptime).toBe('number');
+    expect(response.body.uptime).toBeGreaterThanOrEqual(0);
+  });
+});
