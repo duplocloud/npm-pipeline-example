@@ -1,10 +1,16 @@
 import * as express from 'express';
+import { randomUUID } from 'crypto';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const pkg = require('../package.json');
 
 export const app = express();
 const port = process.env.PORT || 3000;
+
+app.use((_req, res, next) => {
+  res.setHeader('X-Request-ID', randomUUID());
+  next();
+});
 
 // In-memory only — resets to 0 on every process restart.
 let versionRequestCount = 0;
